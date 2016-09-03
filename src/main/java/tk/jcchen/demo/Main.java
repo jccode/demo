@@ -53,6 +53,7 @@ public class Main {
     }
 
     private void hello() {
+
     }
 
     private void stringCutterTest() {
@@ -103,19 +104,19 @@ public class Main {
         System.out.println(t);
         System.out.println(Integer.toHexString(t));
 
-        int len = t & 0x1FF;
+        int len = t & 0x3FF;
         System.out.println("len="+len);
         System.out.println(Integer.toBinaryString(len));
 
-        int encrypt = (t & 0xE00) >>> 9;
+        int encrypt = (t & 0xE00) >>> 10;
         System.out.println("encrypt="+encrypt);
         System.out.println(Integer.toBinaryString(encrypt));
 
-        int encrypt2 = (t >>> 9) & 0x7;
+        int encrypt2 = (t >>> 10) & 0x7;
         System.out.println("encrypt2="+encrypt2);
         System.out.println(Integer.toBinaryString(encrypt2));
 
-        int multiplePackage = (t >>> 12) & 0x1;
+        int multiplePackage = (t >>> 13) & 0x1;
         System.out.println("multiple package="+multiplePackage);
     }
 

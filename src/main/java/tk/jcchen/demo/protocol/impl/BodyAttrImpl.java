@@ -59,9 +59,9 @@ public class BodyAttrImpl extends AbstractProtoDataType implements BodyAttr {
 
     private void init() {
         int value = bytesToInt(content);
-        bodyLength = value & 0x1FF;
-        encrypt = (value >>> 9) & 0x7;
-        multiplePackage = (value >>> 12) & 0x1;
+        bodyLength = value & 0x3FF;
+        encrypt = (value >>> 10) & 0x7;
+        multiplePackage = (value >>> 13) & 0x1;
     }
 
     @Override
