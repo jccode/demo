@@ -1,12 +1,13 @@
 package tk.jcchen.demo.protocol;
 
 import tk.jcchen.demo.protocol.types.BCD;
+import tk.jcchen.demo.protocol.types.ProtoDataType;
 import tk.jcchen.demo.protocol.types.Word;
 
 /**
  * Created by jcchen on 16-9-2.
  */
-public interface Header {
+public interface Header extends ProtoDataType {
 
     Word id();
 
@@ -22,5 +23,4 @@ public interface Header {
 
     PackagingItem packagingItem();
 
-    void fromHexString(String hexString);
 }

@@ -1,5 +1,7 @@
 package tk.jcchen.demo.protocol.types;
 
+import tk.jcchen.demo.protocol.ProtoException;
+
 /**
  * Created by jcchen on 16-9-2.
  */
@@ -24,5 +26,5 @@ public interface ProtoDataType {
 
     String toHexString();
 
-    void fromHexString(String hexString);
+    void fromHexString(String hexString) throws ProtoException;
 }

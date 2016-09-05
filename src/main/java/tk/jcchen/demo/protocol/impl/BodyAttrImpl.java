@@ -29,7 +29,6 @@ public class BodyAttrImpl extends AbstractProtoDataType implements BodyAttr {
     @Override
     public void fromHexString(String hexString) {
         content = hexStringToBytes(hexString);
-        System.out.println(hexString);
         init();
     }
 

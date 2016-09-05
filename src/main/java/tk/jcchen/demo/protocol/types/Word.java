@@ -25,12 +25,17 @@ public class Word extends AbstractProtoDataType {
         this.content = hexStringToBytes(hexString);
     }
 
+    public int toInt() {
+        return bytesToInt(content);
+    }
+
     @Override
     public String toString() {
         return "Word{" +
                 "length=" + length +
                 ", content=" + Arrays.toString(content) +
                 ", hex=" + this.toHexString() +
+                ", int=" + this.toInt() +
                 '}';
     }
 }

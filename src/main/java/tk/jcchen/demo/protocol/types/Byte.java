@@ -1,5 +1,7 @@
 package tk.jcchen.demo.protocol.types;
 
+import java.util.Arrays;
+
 /**
  * Created by jcchen on 16-9-2.
  */
@@ -8,7 +10,7 @@ public class Byte extends AbstractProtoDataType {
     private byte[] content;
 
     public Byte() {
-        this.content = new byte[0];
+        this.content = new byte[1];
     }
 
     public Byte(int n) {
@@ -42,5 +44,18 @@ public class Byte extends AbstractProtoDataType {
     @Override
     public int endian() {
         return ProtoDataType.LITTLE_ENDIAN;
+    }
+
+    public int toInt() {
+        return bytesToInt(content);
+    }
+
+    @Override
+    public String toString() {
+        return "Byte{" +
+                "content=" + Arrays.toString(content) +
+                ", hex=" + this.toHexString() +
+                ", int=" + toInt() +
+                '}';
     }
 }

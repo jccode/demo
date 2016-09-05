@@ -20,7 +20,7 @@ public class Dword extends AbstractProtoDataType {
 
     @Override
     public void fromHexString(String hexString) {
-
+        this.content = hexStringToBytes(hexString);
     }
 
 }
