@@ -24,6 +24,7 @@ public class MessageImpl extends AbstractProtoDataType implements Message {
         body = new BodyImpl();
         checkcode = new Byte(1);
     }
+    
 
     @Override
     public Byte delimeter() {
@@ -64,7 +65,7 @@ public class MessageImpl extends AbstractProtoDataType implements Message {
 
     @Override
     public String toHexString() {
-        return null;
+        return bytesToHexString(getBytes());
     }
 
     @Override

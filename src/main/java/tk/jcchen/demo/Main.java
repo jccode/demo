@@ -25,16 +25,24 @@ public class Main {
 
     public static void main(String[] args) throws ProtoException {
         LOGGER.info("Hello world");
-
         Main instance = new Main();
-        String textData = instance.readData();
+        instance.parseData();
+        instance.createMsg();
+        instance.hello();
+    }
+
+    private void createMsg() {
+        Message msg = new MessageImpl();
+    }
+
+    private void parseData() throws ProtoException {
+        String textData = readData();
         Message msg = new MessageImpl();
         msg.fromHexString(textData);
 
         LOGGER.info(textData);
         LOGGER.info(msg.toString());
-
-        instance.hello();
+        LOGGER.info(msg.toHexString());
     }
 
 
@@ -53,7 +61,7 @@ public class Main {
     }
 
     private void hello() {
-
+        System.out.println(0x7e);
     }
 
     private void stringCutterTest() {
