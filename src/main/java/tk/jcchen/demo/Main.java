@@ -2,12 +2,20 @@ package tk.jcchen.demo;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import tk.jcchen.demo.protocol.Message;
-import tk.jcchen.demo.protocol.ProtoException;
+import tk.jcchen.demo.protocol.*;
+import tk.jcchen.demo.protocol.body.ServerCommonResponse;
+import tk.jcchen.demo.protocol.impl.BodyAttrImpl;
+import tk.jcchen.demo.protocol.impl.HeaderImpl;
 import tk.jcchen.demo.protocol.impl.MessageImpl;
+import tk.jcchen.demo.protocol.types.BCD;
+import tk.jcchen.demo.protocol.types.Byte;
+import tk.jcchen.demo.protocol.types.Word;
+import tk.jcchen.demo.protocol.utils.ClassUtil;
+import tk.jcchen.demo.protocol.utils.HexConverter;
 import tk.jcchen.demo.protocol.utils.StringCutter;
 
 import java.io.*;
+import java.util.List;
 import java.util.function.Consumer;
 
 /**
@@ -23,26 +31,30 @@ public class Main {
         dataFile = new File(Main.class.getResource("/data.txt").getFile());
     }
 
-    public static void main(String[] args) throws ProtoException {
+    public static void main(String[] args) throws Exception {
         LOGGER.info("Hello world");
         Main instance = new Main();
         instance.parseData();
-        instance.createMsg();
-        instance.hello();
+//        instance.createMsg();
+//        instance.hello();
     }
 
     private void createMsg() {
-        Message msg = new MessageImpl();
+        Body body = new ServerCommonResponse(1,1,1);
+        Message msg = MessageBuilder.newMessage(0x8001, "18138438111", 10, body);
+        System.out.println(msg);
+        System.out.println(msg.toHexString());
     }
 
     private void parseData() throws ProtoException {
         String textData = readData();
         Message msg = new MessageImpl();
-        msg.fromHexString(textData);
+        ((MessageImpl)msg).fromHexString(textData, true);
 
         LOGGER.info(textData);
         LOGGER.info(msg.toString());
         LOGGER.info(msg.toHexString());
+        LOGGER.info(((MessageImpl)msg).toHexString(true));
     }
 
 
@@ -61,7 +73,37 @@ public class Main {
     }
 
     private void hello() {
-        System.out.println(0x7e);
+//        System.out.println(32769 == 0x8001);
+    }
+
+    private void classUtil() throws IllegalAccessException, InstantiationException {
+        List<Class<? extends Body>> bodyImpls = ClassUtil.getAllClassByInterface(Body.class);
+        for (Class<? extends Body> c : bodyImpls) {
+            Body b = c.newInstance();
+            System.out.println(b.msgId());
+        }
+    }
+
+    private void bcd() {
+        String s = "018138438111";
+        BCD b = new BCD(6);
+        b.valueOf(s);
+        System.out.println(b);
+    }
+
+    private void newBodyAttr() {
+        // 10 bit, < 2^10 = 1024
+        BodyAttr attr = new BodyAttrImpl(60, "");
+        System.out.println(attr.toHexString());
+    }
+
+    private void dataType() {
+        tk.jcchen.demo.protocol.types.Byte b = new Byte();
+        b.valueOf(200);
+        System.out.println(b);
+        Word w = new Word();
+        w.valueOf(20000);
+        System.out.println(w);
     }
 
     private void stringCutterTest() {

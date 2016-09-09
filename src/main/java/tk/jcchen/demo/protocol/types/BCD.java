@@ -1,5 +1,7 @@
 package tk.jcchen.demo.protocol.types;
 
+import tk.jcchen.demo.protocol.utils.HexConverter;
+
 import java.util.Arrays;
 
 /**
@@ -30,6 +32,27 @@ public class BCD extends AbstractProtoDataType {
     @Override
     public void fromHexString(String hexString) {
         this.content = hexStringToBytes(hexString);
+    }
+
+    public void valueOf(String s) {
+        if(s == null || s.equals("")) {
+            return;
+        }
+        if(s.length() < 2) {
+            content[content.length-1] = (byte) Integer.parseInt(s, 10);
+            return;
+        }
+
+        char[] chars = s.toCharArray();
+        for (int i = chars.length-1, pos = content.length-1; i >= 0 && pos >= 0; i-=2, pos--) {
+            byte t;
+            if(i-1 < 0) {
+                t = HexConverter.charToByte(chars[i]);
+            } else {
+                t = (byte) ((HexConverter.charToByte(chars[i-1]) << 4) | HexConverter.charToByte(chars[i]));
+            }
+            content[pos] = t;
+        }
     }
 
     @Override

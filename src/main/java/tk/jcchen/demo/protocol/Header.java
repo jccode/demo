@@ -1,6 +1,7 @@
 package tk.jcchen.demo.protocol;
 
 import tk.jcchen.demo.protocol.types.BCD;
+import tk.jcchen.demo.protocol.types.HexConvert;
 import tk.jcchen.demo.protocol.types.ProtoDataType;
 import tk.jcchen.demo.protocol.types.Word;
 

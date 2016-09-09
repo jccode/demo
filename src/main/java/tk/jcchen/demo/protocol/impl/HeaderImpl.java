@@ -7,6 +7,7 @@ import tk.jcchen.demo.protocol.ProtoException;
 import tk.jcchen.demo.protocol.types.AbstractProtoDataType;
 import tk.jcchen.demo.protocol.types.BCD;
 import tk.jcchen.demo.protocol.types.Word;
+import tk.jcchen.demo.protocol.utils.HexConverter;
 import tk.jcchen.demo.protocol.utils.StringCutter;
 
 /**
@@ -26,6 +27,16 @@ public class HeaderImpl extends AbstractProtoDataType implements Header {
         mobile = new BCD(6);
         serialNum = new Word();
         packagingItem = new PackagingItemImpl();
+    }
+
+    public HeaderImpl(int msgId, String mobile, int seqNum, int bodyLength, String encrypt) {
+        this();
+        this.id.valueOf(msgId);
+        this.bodyAttr = new BodyAttrImpl(bodyLength, encrypt);
+        this.mobile.valueOf(mobile);
+        this.serialNum.valueOf(seqNum);
+        // 分包处理
+        // ...
     }
 
     @Override
@@ -65,22 +76,16 @@ public class HeaderImpl extends AbstractProtoDataType implements Header {
 
     @Override
     public byte[] getBytes() {
-        byte[] bytes = new byte[length()];
-        byte[] b1 = id().getBytes();
-        byte[] b2 = bodyAttr().getBytes();
-        byte[] b3 = mobile().getBytes();
-        byte[] b4 = serialNum().getBytes();
-
-        System.arraycopy(b1, 0, bytes, 0, b1.length);
-        System.arraycopy(b2, 0, bytes, b1.length, b2.length);
-        System.arraycopy(b3, 0, bytes, b1.length+b2.length, b3.length);
-        System.arraycopy(b4, 0, bytes, b1.length+b2.length+b3.length, b4.length);
-
+        byte[] bytes = HexConverter.concat(
+                id().getBytes(),
+                bodyAttr().getBytes(),
+                mobile().getBytes(),
+                serialNum().getBytes());
         if(isPackageItemExist()) {
-            byte[] b5 = packagingItem().getBytes();
-            System.arraycopy(b5, 0, bytes, b1.length+b2.length+b3.length+b4.length, b5.length);
+            return HexConverter.concat(bytes, packagingItem().getBytes());
+        } else {
+            return bytes;
         }
-        return bytes;
     }
 
     @Override

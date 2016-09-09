@@ -13,8 +13,8 @@ public class Byte extends AbstractProtoDataType {
         this.content = new byte[1];
     }
 
-    public Byte(int n) {
-        this.content = new byte[n];
+    public Byte(int size) {
+        this.content = new byte[size];
     }
 
     public Byte(byte b) {
@@ -46,8 +46,12 @@ public class Byte extends AbstractProtoDataType {
         return ProtoDataType.LITTLE_ENDIAN;
     }
 
-    public int toInt() {
+    public int intValue() {
         return bytesToInt(content);
+    }
+
+    public void valueOf(int i) {
+        content = new byte[]{ (byte) (i & 0xFF) };
     }
 
     @Override
@@ -55,7 +59,7 @@ public class Byte extends AbstractProtoDataType {
         return "Byte{" +
                 "content=" + Arrays.toString(content) +
                 ", hex=" + this.toHexString() +
-                ", int=" + toInt() +
+                ", int=" + intValue() +
                 '}';
     }
 }

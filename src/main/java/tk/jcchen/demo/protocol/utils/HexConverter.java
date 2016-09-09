@@ -77,12 +77,34 @@ public class HexConverter {
         return (byte) "0123456789ABCDEF".indexOf(c);
     }
 
-    public static int bytesToInt(byte[] bytes) {
+    public static int bytesToInt(byte[] bytes, int endian) {
         int len = bytes.length;
         int res = 0;
         for (int i = 0; i < len; i++) {
-            res = (bytes[i] & 0xFF) << ((len-1-i) * 8) | res;
+            if(endian == BIG_ENDIAN) {
+                res = (bytes[i] & 0xFF) << ((len-1-i) * 8) | res;
+            } else {
+                res = (bytes[len-1-i] & 0xFF) << ((len-1-i) * 8) | res;
+            }
         }
         return res;
+    }
+
+    public static int bytesToInt(byte[] bytes) {
+        return bytesToInt(bytes, BIG_ENDIAN);
+    }
+
+    public static byte[] concat(byte[] ...bytes) {
+        int len = 0;
+        for (byte[] bs : bytes) {
+            len += bs.length;
+        }
+        byte[] dest = new byte[len];
+        int pos = 0;
+        for (byte[] bs : bytes) {
+            System.arraycopy(bs, 0, dest, pos, bs.length);
+            pos += bs.length;
+        }
+        return dest;
     }
 }

@@ -18,6 +18,12 @@ public class PackagingItemImpl extends AbstractProtoDataType implements Packagin
         this.seqNum = new Word();
     }
 
+    public PackagingItemImpl(int count, int seqNum) {
+        super();
+        this.count.valueOf(count);
+        this.seqNum.valueOf(seqNum);
+    }
+
     @Override
     public Word count() {
         return count;

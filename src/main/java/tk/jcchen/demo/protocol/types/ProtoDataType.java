@@ -1,11 +1,9 @@
 package tk.jcchen.demo.protocol.types;
 
-import tk.jcchen.demo.protocol.ProtoException;
-
 /**
  * Created by jcchen on 16-9-2.
  */
-public interface ProtoDataType {
+public interface ProtoDataType extends HexConvert {
 
     int BIG_ENDIAN = 0;
     int LITTLE_ENDIAN = 1;
@@ -24,7 +22,7 @@ public interface ProtoDataType {
 
     byte[] getBytes();
 
-    String toHexString();
-
-    void fromHexString(String hexString) throws ProtoException;
+//    String toHexString();
+//
+//    void fromHexString(String hexString) throws ProtoException;
 }
